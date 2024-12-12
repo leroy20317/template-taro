@@ -112,6 +112,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.2.7",
     "mime": "^4.0.4",
+    "p-limit": "^6.1.0",
     "postcss": "^8.4.49",
     "prettier": "^3.3.2",
     "rd": "^2.0.1",
@@ -134,7 +135,7 @@
     "webpack": "^5.96.1",
     "yet-another-abortcontroller-polyfill": "^0.0.4"
   },
-  "engines" : {
-    "node" : ">=20"
+  "engines": {
+    "node": ">=20"
   }
 }
