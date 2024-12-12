@@ -5,10 +5,9 @@
  */
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import type { TypedUseSelectorHook } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers } from 'redux';
-import { memoize } from 'proxy-memoize';
 
 import seoReducer from './slices/seo';
 import userReducer from './slices/user';
@@ -44,5 +43,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<AppState> = (fn) => useSelector(memoize(fn));
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = <TSelected>(selector: (state: AppState) => TSelected) => {
+  return useSelector(selector, shallowEqual);
+};
