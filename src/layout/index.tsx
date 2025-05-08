@@ -1,16 +1,18 @@
-/**
- * @author: leroy
- * @date: 2024-11-27 09:51
- * @description：layout
+/*
+ * @Author: leroy
+ * @Date: 2024-11-28 14:23:58
+ * @LastEditTime: 2025-05-08 15:26:33
+ * @Description: layout
  */
+
 import type { FC, ReactElement } from 'react';
 import Header from './Header';
-import useCommon from '@/hooks/useCommon';
+import SEO from './SEO';
 
 const Layout: FC<{ header?: false; children: ReactElement }> = ({ header, children }) => {
-  useCommon();
   return (
     <>
+      {process.env.TARO_ENV === 'h5' && <SEO />}
       {header !== false && <Header />}
       {children}
     </>

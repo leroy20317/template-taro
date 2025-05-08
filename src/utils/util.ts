@@ -1,10 +1,9 @@
-export const qs = (params: Record<string, string | number>) => {
-  return Object.entries(params)
-    .filter(([, val]) => !!val)
-    .map(([key, val]) => `${key}=${val}`)
-    .join('&');
-};
-
+/*
+ * @Author: leroy
+ * @Date: 2024-11-25 16:46:28
+ * @LastEditTime: 2025-05-08 15:18:08
+ * @Description: 工具函数
+ */
 export const waitTime = (time: number = 100) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -25,40 +24,4 @@ export const createChain = (...handlers: ChainHandler[]): ChainHandler => {
     }
     return undefined;
   };
-};
-
-type LabelValueList = {
-  value: any;
-  label: string;
-  children?: {
-    value: any;
-    label: string;
-  }[];
-}[];
-// 根据子类的 id 查找父类的 id
-export const findIds = (data: LabelValueList, id: number) => {
-  for (const item of data) {
-    for (const child of item.children!) {
-      if (child.value === id) {
-        return [item.value, id];
-      }
-    }
-  }
-  return undefined;
-};
-// 根据 value 查找 label
-export const findLabel = (data: LabelValueList, id: number) => {
-  for (const item of data) {
-    if (item.value === id) {
-      return item.label;
-    }
-    if (item.children) {
-      for (const child of item.children) {
-        if (child.value === id) {
-          return child.label;
-        }
-      }
-    }
-  }
-  return undefined;
 };

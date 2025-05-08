@@ -20,7 +20,7 @@ export default defineConfig<'webpack5'>(async (merge) => {
       828: 1.81 / 2,
     },
     sourceRoot: 'src',
-    outputRoot: `dist/${process.env.TARO_ENV}`,
+    outputRoot: `dist/${process.env.TARO_ENV}/${process.env.NODE_ENV}`,
     plugins: [
       '@tarojs/plugin-html',
       '@tarojs/plugin-http',
@@ -28,6 +28,7 @@ export default defineConfig<'webpack5'>(async (merge) => {
     ],
     alias: {
       '@': path.resolve(__dirname, '..', 'src'),
+      '~': path.resolve(__dirname, '..', 'node_modules'),
     },
     defineConstants: {},
     framework: 'react',
@@ -39,15 +40,21 @@ export default defineConfig<'webpack5'>(async (merge) => {
     },
     cache: {
       enable: true, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+      name: `${process.env.NODE_ENV}-${process.env.TARO_ENV}-${process.env.TARO_APP_MODE}`,
     },
     mini: {
+      miniCssExtractPluginOption: {
+        ignoreOrder: true,
+      },
       output: {
         publicPath: `${process.env.TARO_APP_PUBLIC_HOST}/`,
       },
       postcss: {
         pxtransform: {
           enable: true,
-          config: {},
+          config: {
+            onePxTransform: false, // 禁用1px转换
+          },
         },
         cssModules: {
           enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
@@ -73,6 +80,11 @@ export default defineConfig<'webpack5'>(async (merge) => {
                   rem2rpx: true,
                 },
               ],
+            },
+          },
+          resolve: {
+            alias: {
+              '@tarojs/runtime': require.resolve('@tarojs/runtime'),
             },
           },
         });

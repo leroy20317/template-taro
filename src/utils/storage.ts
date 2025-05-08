@@ -1,33 +1,45 @@
-/**
- * @author: leroy
- * @date: 2024-11-26 11:38
- * @description：storage
+/*
+ * @Author: leroy
+ * @Date: 2025-01-20 14:14:37
+ * @LastEditTime: 2025-03-31 14:05:50
+ * @Description: 本地存储storage
  */
+
 import Taro from '@tarojs/taro';
 
-const get = (key: string) => {
-  if (process.env.TARO_ENV === 'h5') {
-    const value = localStorage.getItem(key) || '';
-    try {
-      // 尝试将取出的字符串转换为对象
-      return JSON.parse(value);
-    } catch (e) {
-      console.log('e', e);
-      // 如果转换失败（说明原本就不是对象），直接返回原始字符串
-      return value;
+async function get<T = unknown>(key: string): Promise<T | undefined> {
+  try {
+    const val = Taro.getStorageSync<T>(key);
+    if (val) {
+      return val;
     }
+    return undefined;
+  } catch (error) {
+    console.error('storage get error', error);
+    return undefined;
   }
-  return Taro.getStorageSync(key);
-};
-const set = (key: string, value: any) => {
-  if (process.env.TARO_ENV === 'h5') {
-    localStorage.setItem(key, JSON.stringify(value));
-    return;
+}
+async function set(key: string, value: any) {
+  try {
+    Taro.setStorageSync(key, value);
+    return true;
+  } catch (error) {
+    console.error('storage set error', error);
+    return false;
   }
-  Taro.setStorageSync(key, value);
-};
+}
+async function remove(key: string) {
+  try {
+    Taro.removeStorageSync(key);
+    return true;
+  } catch (error) {
+    console.error('storage remove error', error);
+    return false;
+  }
+}
 
 export default {
   get,
   set,
+  remove,
 };
