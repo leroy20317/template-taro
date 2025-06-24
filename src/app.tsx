@@ -1,7 +1,7 @@
 /*
  * @Author: leroy
  * @Date: 2024-11-26 10:15:03
- * @LastEditTime: 2025-05-08 15:26:55
+ * @LastEditTime: 2025-06-24 17:30:58
  * @Description:
  */
 // 处理 AbortController 和 EventTarget 的兼容性 https://github.com/NervJS/taro/issues/15517
@@ -17,7 +17,7 @@ import useCommon from '@/hooks/useCommon';
 import { Provider } from 'react-redux';
 import { makeStore } from './store/store';
 // 全局样式
-import './app.scss';
+import './app.css';
 
 const store = makeStore();
 
